@@ -1,0 +1,19 @@
+[DEFAULT]
+ignoreip = <%= node['fail2ban']['ignoreip'] %>
+maxretry = <%= node['fail2ban']['maxretry'] %>
+bantime = <%= node['fail2ban']['bantime'] %>
+
+
+
+
+<% @node['fail2ban']['services'].each do |service, param| %>
+[<%= service %>]
+enabled = <%= param['enabled'] %>
+
+<% %w{ bantime maxretry }.each do |key| %>
+<% if param[key] %>
+<%=key %> = <%= param[key] %>
+<% end %>
+<% end %>
+<% end %>
+
