@@ -19,3 +19,20 @@ end
 service "fail2ban" do
 	action [:start, :enable]
 end
+
+=begin
+execute "copy_config" do
+	command "cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local"
+end
+=end
+
+template "/etc/fail2ban/jail.local" do
+	source "jail.conf.erb"
+	mode "644"
+	owner "root"
+	group "root"
+	notifies :restart, "service[fail2ban]"
+end
+
+
+
